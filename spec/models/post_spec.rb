@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  current_user = User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password")
+  let(:current_user) { User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password") }
+  let(:post) { Post.new(title: "", body: "", user: current_user, views: 0) }
+
   it 'has a title' do
-    post = Post.new(
-      title: "",
-      body: "a valid body",
-      user: current_user,
-      views: 0
-    )
+    post.title = ""
+    post.body = "a valid body"
     # this test will be fail
     expect(post).to_not be_valid
     post.title = "Has a title"
@@ -16,12 +14,8 @@ RSpec.describe Post, type: :model do
   end
 
   it 'has a body' do
-    post = Post.new(
-      title: "a valid title",
-      body: "",
-      user: current_user,
-      views: 0
-    )
+    post.title = "a valid title"
+    post.body = ""
 
     expect(post).to_not be_valid
     post.body = "Has a body"
@@ -29,12 +23,8 @@ RSpec.describe Post, type: :model do
   end
 
   it 'has a title at least 2 characters long' do
-    post = Post.new(
-      title: "",
-      body: "a valid body",
-      user: current_user,
-      views: 0
-    )
+    post.title = ""
+    post.body = "a valid body"
 
     expect(post).to_not be_valid
     post.title = "12"
@@ -42,13 +32,9 @@ RSpec.describe Post, type: :model do
   end
 
   it 'has a body between 5 and 100 characters' do
-    post = Post.new(
-      title: "a valid title",
-      body: "",
-      user: current_user,
-      views: 0
-    )
-
+    post.title = "a valid title"
+    post.body = ""
+    
     expect(post).to_not be_valid
     post.body = "12345"
     expect(post).to be_valid
@@ -57,12 +43,8 @@ RSpec.describe Post, type: :model do
   end
 
   it 'has numerical views' do
-    post = Post.new(
-      title: "a valid title",
-      body: "a valid body",
-      user: current_user,
-      views: 0
-    )
+    post.title = "a valid title"
+    post.body = "a valid body"
 
     expect(post.views).to be_a(Integer)
 

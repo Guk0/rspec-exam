@@ -17,6 +17,18 @@ RSpec.describe "/posts", type: :request do
   # adjust the attributes here as well.
 
   let(:current_user) { User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password") }
+  let(:mock_post) do 
+    post = Post.new(valid_attributes)
+    post.user = current_user
+    post.save
+    post    
+  end
+
+  let(:new_post) do 
+    post = Post.new valid_attributes
+    post
+  end
+
 
   before do
     sign_in current_user
@@ -44,10 +56,6 @@ RSpec.describe "/posts", type: :request do
 
   describe "GET /index" do
     it "renders a successful response" do
-      post = Post.new(valid_attributes)
-      post.user = current_user
-      post.save
-
       get posts_url
       expect(response).to be_successful
     end
@@ -55,10 +63,7 @@ RSpec.describe "/posts", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      post = Post.new(valid_attributes)
-      post.user = current_user
-      post.save
-      get post_url(post)
+      get post_url(mock_post)
 
       expect(response).to be_successful
     end
@@ -66,9 +71,7 @@ RSpec.describe "/posts", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
-      post = Post.new valid_attributes
-
-      get new_post_url(post)
+      get new_post_url(new_post)
 
       expect(response).to be_successful
     end
@@ -76,11 +79,7 @@ RSpec.describe "/posts", type: :request do
 
   describe "GET /edit" do
     it "render a successful response" do
-      post = Post.new(valid_attributes)
-      post.user = current_user
-      post.save
-
-      get edit_post_url(post)
+      get edit_post_url(mock_post)
       expect(response).to be_successful
     end
   end
@@ -125,28 +124,21 @@ RSpec.describe "/posts", type: :request do
       }
 
       it "updates the requested post" do
-        post = Post.new(valid_attributes)
-        post.user = current_user
-        post.save
-        patch post_url(post), params: { post: new_attributes }
-        post.reload
+        patch post_url(mock_post), params: { post: new_attributes }
+        mock_post.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the post" do
-        post = Post.new(valid_attributes)
-        post.user = current_user
-        post.save
-        patch post_url(post), params: { post: new_attributes }
-        post.reload
-        expect(response).to redirect_to(post_url(post))
+        patch post_url(mock_post), params: { post: new_attributes }
+        mock_post.reload
+        expect(response).to redirect_to(post_url(mock_post))
       end
     end
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        post = Post.create! valid_attributes
-        patch post_url(post), params: { post: invalid_attributes }
+        patch post_url(mock_post), params: { post: invalid_attributes }
         expect(response).not_to be_successful
       end
     end
@@ -154,21 +146,14 @@ RSpec.describe "/posts", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested post" do
-      post = Post.new(valid_attributes)
-      post.user = current_user
-      post.save
-
+      post = mock_post
       expect {
         delete post_url(post)
       }.to change(Post, :count).by(-1)
     end
 
     it "redirects to the posts list" do
-      post = Post.new(valid_attributes)
-      post.user = current_user
-      post.save
-
-      delete post_url(post)
+      delete post_url(mock_post)
       expect(response).to redirect_to(posts_url)
     end
   end

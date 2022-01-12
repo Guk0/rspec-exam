@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "posts/new", type: :view do
-  current_user = User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password")
+  let(:current_user) { User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password") }
 
   before(:each) do
     assign(:post, Post.new(
