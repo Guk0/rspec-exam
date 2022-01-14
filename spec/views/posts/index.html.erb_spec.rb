@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "posts/index", type: :view do
-  let(:current_user) { User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password") }
+  let(:current_user) { create(:user) }
 
   before(:each) do
     assign(:posts, [

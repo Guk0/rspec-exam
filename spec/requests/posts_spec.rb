@@ -16,7 +16,7 @@ RSpec.describe "/posts", type: :request do
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
 
-  let(:current_user) { User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password") }
+  let(:current_user) { create(:user) }
   let(:mock_post) do 
     post = Post.new(valid_attributes)
     post.user = current_user

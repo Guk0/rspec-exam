@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  let(:current_user) { User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password") }
+  let(:current_user) { create(:user) }
   let(:post) { Post.new(title: "", body: "", user: current_user, views: 0) }
   subject { post }
 
