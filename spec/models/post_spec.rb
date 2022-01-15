@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
   let(:current_user) { create(:user) }
-  let(:post) { Post.new(title: "", body: "", user: current_user, views: 0) }
+  let(:post) { build(:post, title: "", body: "") }
   subject { post }
 
   it 'has a title' do

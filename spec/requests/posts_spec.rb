@@ -17,24 +17,15 @@ RSpec.describe "/posts", type: :request do
   # adjust the attributes here as well.
 
   let(:current_user) { create(:user) }
-  let(:mock_post) do 
-    post = Post.new(valid_attributes)
-    post.user = current_user
-    post.save
-    post    
-  end
+  let(:mock_post) { create(:post, user: current_user) }
 
   let(:new_post) do 
-    post = Post.new valid_attributes
-    post
+    Post.new valid_attributes
   end
 
 
   before do
     sign_in current_user
-    # @current_user = User.first_or_create(email: 'cgycgy39@gmail.com', password: "password", password_confirmation: "password")
-    # puts "-----#{@current_user}----"
-    # allow(@request).to receive(:current_user).and_return(@current_user)
   end
   
   let(:valid_attributes) do
