@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
   let(:current_user) { create(:user) }
-  let(:post) { build(:post, title: "", body: "") }
+  let(:post) { build(:post, title: "", body: "", user: current_user) }
   subject { post }
 
-  it 'has a title' do
+  it 'has a title' do    
     post.title = ""
     post.body = "a valid body"
     # this test will be fail

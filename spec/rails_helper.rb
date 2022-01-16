@@ -5,6 +5,9 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'capybara/rails'
+require 'fuubar'
+
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -45,6 +48,12 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   
+  config.before(:suite) { DatabaseCleaner.clean_with(:truncation) }
+  config.before(:each) { DatabaseCleaner.strategy = :transaction }
+  config.before(:each, js: true) { DatabaseCleaner.strategy = :truncation }
+  config.before(:each) { DatabaseCleaner.start }
+  config.before(:each) { DatabaseCleaner.clean }
+  config.fuubar_progress_bar_options = { format: 'Completed Tests <%B> %p%% %a' }
 
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
