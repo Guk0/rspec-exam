@@ -1,14 +1,15 @@
 FROM ruby:2.6.5
-RUN apt-get update -qq && apt-get install -y nodejs build-essential postgresql-client
+
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+
+RUN mkdir /rspec-study
 WORKDIR /rspec-study
+
 COPY Gemfile /rspec-study/Gemfile
 COPY Gemfile.lock /rspec-study/Gemfile.lock
-RUN gem install bundler
+
+RUN gem install bundler:2.3.5
+
 RUN bundle install
 
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
-
-CMD ["rails", "server", "-b", "0.0.0.0"]
+COPY . /rspec-study
